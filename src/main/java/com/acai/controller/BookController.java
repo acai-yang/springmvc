@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2023年03月02日 11:00
  */
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/book")
+public class BookController {
 
     //设置当前操作的访问路径
     @RequestMapping("/save")
     @ResponseBody //设置返回值类型
-    public String save() {
-        System.out.println("user save ...");
-        return "{'module':'springmvc'}";
+    public String save(String name,int age) {
+        System.out.println(name);
+        System.out.println(age);
+        return "";
+
     }
 }
