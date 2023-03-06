@@ -25,6 +25,7 @@ public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatc
         return new Class[]{SpringMvcConfig.class};
     }
 
+    //乱码处理
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
