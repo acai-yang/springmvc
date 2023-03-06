@@ -1,11 +1,7 @@
 package com.acai.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
+import com.acai.domain.User;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * DESC
@@ -13,18 +9,41 @@ import java.util.List;
  * @author YangMingCai
  * @date 2023年03月02日 11:00
  */
-@Controller
-@RequestMapping("/book")
+//@Controller
+//@ResponseBody
+@RestController
+@RequestMapping("/books")
 public class BookController {
-
     //设置当前操作的访问路径
-    @RequestMapping("/save")
-    @ResponseBody //设置返回值类型
-    public String save(@RequestParam List<String> likes) {
-        for (String s : likes) {
-            System.out.println(s);
-        }
-        return "BookController#save()";
+    @PostMapping
+    public String save() {
+        System.out.println("User#save()");
+        return "UserController#save()";
+    }
 
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Integer id) {
+        System.out.println("User#delete()" + id);
+        return "UserController#delete()";
+    }
+
+    @PutMapping
+    public String update(@RequestBody User user) {
+        System.out.println("User#update()" + user);
+        return "UserController#update()";
+    }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable Integer id) {
+        System.out.println("User#getById()" + id);
+        return "UserController#getById()";
+    }
+
+    @GetMapping
+    public String getAll() {
+        System.out.println("getAll#getAll()");
+        return "UserController#getAll()";
     }
 }
+
+

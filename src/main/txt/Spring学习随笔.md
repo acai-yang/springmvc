@@ -916,6 +916,8 @@ public class ServletContainersInitConfig extends AbstractDispatcherServletInitia
 
 ### 请求和响应
 
+#### 请求
+
 乱码处理
 
 ```java
@@ -1048,5 +1050,152 @@ public class JsonController {
         System.out.println(date2);
         return "UserController#dataParam()";
     }
+```
+
+!!!  @EnableWebMvc注解
+
+#### 响应
+
+响应数据：json、文本
+
+```java
+ @RequestMapping(value = "/toJumpPage")
+    public String toJumpPage() {
+        System.out.println("页面跳转");
+        return "page.jsp";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/toText")
+    public String toText() {
+        System.out.println("返回纯文本信息");
+        return "response text";
+    }
+
+    @RequestMapping("toJsonPOJO")
+    @ResponseBody
+    public User toJsonPOJO() {
+        System.out.println("返回json对象数据");
+        User user = new User();
+        user.setName("acai");
+        user.setAge(18);
+        return user;
+    }
+
+    @RequestMapping("toJsonList")
+    @ResponseBody
+    public List<User> toJsonList() {
+        System.out.println("返回json对象数据");
+        User user = new User();
+        user.setName("acai");
+        user.setAge(18);
+        User user2 = new User();
+        user2.setName("liuliu");
+        user2.setAge(18);
+        ArrayList<User> list = new ArrayList<>();
+        list.add(user);
+        list.add(user2);
+        return list;
+    }
+```
+
+!!!  @ResponseBody 设置当前控制器返回值作为响应体
+
+### REST风格
+
+概述：变现形式状态转换
+
+优点：
+
+- 隐层访问行为，无法通过地址得知资源是何操作
+- 书写简化
+
+```java
+ @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @ResponseBody //设置返回值类型
+    public String save() {
+        System.out.println("User#save()");
+        return "UserController#save()";
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    @ResponseBody //设置返回值类型
+    public String delete(@PathVariable Integer id) {
+        System.out.println("User#delete()" + id);
+        return "UserController#delete()";
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    @ResponseBody //设置返回值类型
+    public String update(@RequestBody User user) {
+        System.out.println("User#update()" + user);
+        return "UserController#update()";
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @ResponseBody //设置返回值类型
+    public String getById(@PathVariable Integer id) {
+        System.out.println("User#getById()" + id);
+        return "UserController#getById()";
+    }
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @ResponseBody //设置返回值类型
+    public String getAll() {
+        System.out.println("getAll#getAll()");
+        return "UserController#getAll()";
+    }
+```
+
+简化
+
+```java
+package com.acai.controller;
+
+import com.acai.domain.User;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * DESC
+ *
+ * @author YangMingCai
+ * @date 2023年03月02日 11:00
+ */
+//@Controller
+//@ResponseBody
+@RestController
+@RequestMapping("/books")
+public class BookController {
+    //设置当前操作的访问路径
+    @PostMapping
+    public String save() {
+        System.out.println("User#save()");
+        return "UserController#save()";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Integer id) {
+        System.out.println("User#delete()" + id);
+        return "UserController#delete()";
+    }
+
+    @PutMapping
+    public String update(@RequestBody User user) {
+        System.out.println("User#update()" + user);
+        return "UserController#update()";
+    }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable Integer id) {
+        System.out.println("User#getById()" + id);
+        return "UserController#getById()";
+    }
+
+    @GetMapping
+    public String getAll() {
+        System.out.println("getAll#getAll()");
+        return "UserController#getAll()";
+    }
+}
+
 ```
 
