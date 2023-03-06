@@ -916,3 +916,137 @@ public class ServletContainersInitConfig extends AbstractDispatcherServletInitia
 
 ### 请求和响应
 
+乱码处理
+
+```java
+//乱码处理
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        return new Filter[]{filter};
+    }
+```
+
+请求参数与形参名不一致
+
+```java
+  //设置当前操作的访问路径
+    @RequestMapping("/save")
+    @ResponseBody //设置返回值类型
+    public String save(@RequestParam("name") String name, @RequestParam("age") int age) {
+        System.out.println(name);
+        System.out.println(age);
+        return "BookController#save()";
+    }
+```
+
+pojo参数
+
+```java
+    //设置当前操作的访问路径
+    @RequestMapping("/save")
+    @ResponseBody //设置返回值类型
+    public String save(User user) {
+        System.out.println(user);
+        return "UserController#save()";
+    }
+```
+
+嵌套pojo对象
+
+![1678064430161](img/1678064430161.png)
+
+```java
+    //设置当前操作的访问路径
+    @RequestMapping("/save")
+    @ResponseBody //设置返回值类型
+    public String save(User user) {
+        System.out.println(user);
+        return "UserController#save()";
+    }
+```
+
+数组保存普通参数
+
+```java
+ //设置当前操作的访问路径
+    @RequestMapping("/save")
+    @ResponseBody //设置返回值类型
+    public String save(String[] likes) {
+        for (String s : likes) {
+            System.out.println(s);
+        }
+        return "BookController#save()";
+    }
+```
+
+集合保存普通参数
+
+```java
+    //设置当前操作的访问路径
+    @RequestMapping("/save")
+    @ResponseBody //设置返回值类型
+    public String save(@RequestParam List<String> list) {
+        for (String s : list) {
+            s.length();
+        }
+        return "BookController#save()";
+    }
+```
+
+请求参数（json传参）
+
+依赖引入
+
+```xml
+<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+```
+
+开启自动转换json数据转换支持
+
+```java
+@Configuration
+@ComponentScan("com.acai.controller")
+@EnableWebMvc
+public class SpringMvcConfig {}
+```
+
+接收json数据
+
+```java
+@Controller
+@RequestMapping("/json")
+public class JsonController {
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public String save(@RequestBody List<String> likes) {
+        for (String like : likes) {
+            System.out.println(like);
+        }
+        return "JsonController@save()";
+    }
+}
+```
+
+日期类型参数传递
+
+```java
+ @RequestMapping("date")
+    @ResponseBody
+    public String dateParam(
+            Date date,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date date1,
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date2) {
+        System.out.println(date);
+        System.out.println(date1);
+        System.out.println(date2);
+        return "UserController#dataParam()";
+    }
+```
+
