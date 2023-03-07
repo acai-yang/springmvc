@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @date 2023年03月02日 11:05
  */
 @Configuration
-@ComponentScan("com.acai.controller")
+@ComponentScan({"com.acai.controller", "com.acai.config"})
 @EnableWebMvc
 public class SpringMvcConfig {
 }
